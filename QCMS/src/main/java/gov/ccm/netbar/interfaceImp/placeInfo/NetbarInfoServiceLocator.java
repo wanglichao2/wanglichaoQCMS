@@ -22,7 +22,7 @@ public class NetbarInfoServiceLocator extends org.apache.axis.client.Service imp
     }
 
     // Use to get a proxy class for NetbarInfoPort
-    private java.lang.String NetbarInfoPort_address = "http://192.168.70.39:8080/netbar/services/NetbarInfo";
+    private java.lang.String NetbarInfoPort_address = "http://192.168.70.40:8080/netbar/services/NetbarInfo";
 
     public java.lang.String getNetbarInfoPortAddress() {
         return NetbarInfoPort_address;

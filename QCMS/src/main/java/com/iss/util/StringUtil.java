@@ -435,7 +435,7 @@ public class StringUtil {
 	/**
 	 * 解析字符串返回 名称=值的参数表 (a=1&b=2 => a=1,b=2)
 	 * 
-	 * @see test.koubei.util.StringUtilTest#testParseStr()
+	 * @see UploadTest.koubei.util.StringUtilTest#testParseStr()
 	 * @param str
 	 * @return
 	 */
