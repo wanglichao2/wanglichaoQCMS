@@ -28,7 +28,7 @@ public class UploadRun implements Runnable{
 		while(true){
 			 try{
 			   //Thread.sleep(1000*60*10);
-				 Thread.sleep(5000);
+				 Thread.sleep(5000*60);
 				 System.out.println("=============线程的开始================");
 				 WebServiceUtilUpload wuupload=new WebServiceUtilUpload();//这是一个上传的工具类
 				 String key=wuupload.login();
@@ -39,9 +39,10 @@ public class UploadRun implements Runnable{
 				 Date date= new Date();
 				 int hours = date.getHours();
 				  String res=null;
-				 if(hours==23){
+				 if(hours>=16){
 					res= wuupload.sendCustomerOnlineInfo(getAll());//返回上传的结果successful/failing
-					 if(res.equals("successful")){
+					System.out.println("===========线程调用上传的结果：=====》"+res);
+/*					 if(res.equals("successful")){
 							 List<CustomerOnlineInfo> clist2=getAll();
 				    	 for(int i=0;i<clist2.size();i++){
 				    		String NetBar_code= clist2.get(i).getNetbar_code();
@@ -57,7 +58,7 @@ public class UploadRun implements Runnable{
 				    		}
 				    	 }
 						
-					 }
+					 }*/
 				 }
 				
 				/* List<CustomerOnlineInfo> clist=getAll();

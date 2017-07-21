@@ -14,13 +14,18 @@ import com.iss.entity.t_up_customeronlineinfo;
 import com.iss.vo.InterfaceConfig;
 
 import gov.ccm.netbar.interfaceImp.controlInfo.CustomerOnlineInfo;
+import gov.ccm.netbar.interfaceImp.controlInfo.ExigencyInfo;
+import gov.ccm.netbar.interfaceImp.controlInfo.OnlineTimeTipInfo;
 import gov.ccm.netbar.interfaceImp.controlInfo.UploadControlInfoServiceProxy;
 import gov.ccm.netbar.interfaceImp.loginInfo.LoginInfoProxy;
 
 public class WebServiceUtilUpload {
 	private static JaxWsDynamicClientFactory clientFactory = JaxWsDynamicClientFactory.newInstance();
-
-	public static Client createWsClient(InterfaceConfig config) {
+    private static String Uploadconserproxurl=" http://192.168.70.40:8080/netbar/services/ControlInfo?wsdl";//UploadControlInfoService
+      //这个接口的地址
+	private static  UploadControlInfoServiceProxy upinprox=new UploadControlInfoServiceProxy(Uploadconserproxurl);
+	private static String result1="";
+    public static Client createWsClient(InterfaceConfig config) {
 		ClientImpl client = (ClientImpl) clientFactory.createClient(config
 				.getUrl());
 		client.setSynchronousTimeout(20000);
@@ -76,9 +81,7 @@ public class WebServiceUtilUpload {
 	public static String sendCustomerOnlineInfo( List<CustomerOnlineInfo> list) throws Exception{
 		String result ="";
 		try{
-			String Uploadconserproxurl=" http://192.168.70.40:8080/netbar/services/ControlInfo?wsdl";
 			login();
-			UploadControlInfoServiceProxy upinprox=new UploadControlInfoServiceProxy(Uploadconserproxurl);
 			CustomerOnlineInfo[] cusonliInfo=list.toArray(new CustomerOnlineInfo[]{});
 			 result=upinprox.sendCustomerOnlineInfo(login(),cusonliInfo);
 			 if(result.equals("successful")){
@@ -86,10 +89,42 @@ public class WebServiceUtilUpload {
 			 }
 		}catch(Exception e){
 			e.printStackTrace();
-			throw new Exception("调用场所上网信息上传"+e.getMessage());
+			throw new Exception("调用场所上网信息上传失败"+e.getMessage());
 		}
 		return result;
 	}
-	
+	//上网时长提示信息上传
+	public static String sendOnlineTimeInfo(List<OnlineTimeTipInfo> list) throws Exception{
+	       //  result1="";
+		try {
+			login();
+			OnlineTimeTipInfo[] onlineTimeTipInfo=list.toArray(new OnlineTimeTipInfo[]{});
+			 result1=upinprox.sendOnlineTimeInfo(login(), onlineTimeTipInfo);
+			if(result1.equals("successful"))
+				System.out.println("===========上传成功=======>"+result1);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			throw new Exception("调用上网时长提示信息上传失败："+e.getMessage());
+		}
+		return result1;
+	}
+	//紧急状态信息上传
+	public static String sendExigencyInfo(List<ExigencyInfo> list) throws Exception{
+		try {
+			 login();
+			 ExigencyInfo[] exigencyInfo=list.toArray(new ExigencyInfo[]{});
+			 result1=upinprox.sendExigencyInfo(login(), exigencyInfo);
+			 if(result1.equals("successful")){
+				 System.out.println("==========上传成功======》"+result1);
+			 }
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			throw new Exception("调用紧急状态信息上传"+e.getMessage());
+		}
+		return result1;
+		
+	}
 	
 }
